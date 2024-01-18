@@ -35,14 +35,43 @@
 # xdg-desktop-portal-hyprland: xdg-desktop-portal backend for hyprland
 
 #### Check for yay ####
+
+echo "Updating system!"
+sudo pacman -Syyu
+
 ISYAY=/sbin/yay
-if [ -f "$ISYAY" ]; then 
+if [ -f "$ISYAY" ]; then
     echo -e "yay was located, moving on.\n"
     yay -Suy
-else 
-    echo -e "yay was not located, please install yay. Exiting script.\n"
-    exit 
+else
+    echo -e "Installing yay"
+    sudo pacman -S --needed git base-devel
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
+    yay -Y --gendb
+    yay -Syu --devel
+    yay -Y --devel --save
+    yay -Syu
 fi
+
+echo "Installing chatotic-aur"
+sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+sudo pacman-key --lsign-key 3056513887B78AEB
+sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+sudo echo "
+[chaotic-aur]
+Include = /etc/pacman.d/chaotic-mirrorlist" >>/etc/pacman.conf
+sudo pacman -Syu
+
+echo "Adding archlinuxcn"
+sudo echo '
+[archlinuxcn]
+Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
+sudo pacman-key --lsign-key "farseerfc@archlinux.org"
+sudo pacman -Sy && pacman -S archlinuxcn-keyring
+sudo pacman -Syyu
 
 ### Disable wifi powersave mode ###
 read -n1 -rep 'Would you like to disable wifi powersave? (y,n)' WIFI
@@ -60,21 +89,18 @@ fi
 read -n1 -rep 'Would you like to install the packages? (y,n)' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
     sudo pacman -S --needed hyprland kitty waybar \
-    swaybg swaylock-effects wofi wlogout mako thunar \
-    ttf-jetbrains-mono-nerd noto-fonts-emoji \
-    polkit-gnome python-requests starship \
-    swappy grim slurp pamixer brightnessctl gvfs \
-    bluez bluez-utils lxappearance xfce4-settings \
-    dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland
+        swaybg swaylock-effects wofi wlogout mako thunar \
+        ttf-jetbrains-mono-nerd noto-fonts-emoji \
+        polkit-gnome python-requests starship \
+        swappy grim slurp pamixer brightnessctl gvfs \
+        bluez bluez-utils lxappearance xfce4-settings \
+        dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland
 
     # Start the bluetooth service
     echo -e "Starting the Bluetooth Service...\n"
     sudo systemctl enable --now bluetooth.service
     sleep 2
-    
-    # Clean out other portals
-    echo -e "Cleaning out conflicting xdg portals...\n"
-    yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk
+
 fi
 
 ### Copy Config Files ###
@@ -87,8 +113,8 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     cp -R waybar ~/.config/
     cp -R swaylock ~/.config/
     cp -R wofi ~/.config/
-    
-    # Set some files as exacutable 
+
+    # Set some files as exacutable
     chmod +x ~/.config/hypr/xdg-portal-hyprland
     chmod +x ~/.config/waybar/scripts/waybar-wttr.py
 fi
@@ -98,34 +124,9 @@ read -n1 -rep 'Would you like to install the starship shell? (y,n)' STAR
 if [[ $STAR == "Y" || $STAR == "y" ]]; then
     # install the starship shell
     echo -e "Updating .bashrc...\n"
-    echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
+    echo -e '\neval "$(starship init bash)"' >>~/.bashrc
     echo -e "copying starship config file to ~/.confg ...\n"
     cp starship.toml ~/.config/
-fi
-
-### Install software for Asus ROG laptops ###
-read -n1 -rep 'Would you like to install Asus ROG software support? (y,n)' ROG
-if [[ $ROG == "Y" || $ROG == "y" ]]; then
-    echo -e "Adding Keys... \n"
-    sudo pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
-    sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
-    sudo pacman-key --lsign-key 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
-    sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
-
-    LOC="/etc/pacman.conf"
-    echo -e "Updating $LOC with g14 repo.\n"
-    echo -e "\n[g14]\nServer = https://arch.asus-linux.org" | sudo tee -a $LOC
-    echo -e "\n"
-    echo -e "Update the system...\n"
-    sudo pacman -Suy
-
-    echo -e "Installing ROG pacakges...\n"
-    sudo pacman -S --noconfirm asusctl supergfxctl rog-control-center
-    echo -e "Activating ROG services...\n"
-    sudo systemctl enable --now power-profiles-daemon.service
-    sleep 2
-    sudo systemctl enable --now supergfxd
-    sleep 2
 fi
 
 ### Script is done ###
@@ -140,3 +141,5 @@ if [[ $HYP == "Y" || $HYP == "y" ]]; then
 else
     exit
 fi
+
+sudo reboot
