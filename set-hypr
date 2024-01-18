@@ -53,6 +53,7 @@ else
     yay -Syu --devel
     yay -Y --devel --save
     yay -Syu
+    cd ..
 fi
 
 echo "Installing chatotic-aur"
