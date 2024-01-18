@@ -61,15 +61,23 @@ sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
 sudo pacman-key --lsign-key 3056513887B78AEB
 sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
 sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+sudo chown $USER /etc/pacman.conf
+sleep 0.2
 sudo echo "
 [chaotic-aur]
 Include = /etc/pacman.d/chaotic-mirrorlist" >>/etc/pacman.conf
+sudo chown root /etc/pacman.conf
+sleep 0.2
 sudo pacman -Syu
 
 echo "Adding archlinuxcn"
+sudo chown $USER /etc/pacman.conf
+sleep 0.2
 sudo echo '
 [archlinuxcn]
 Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
+sudo chown root /etc/pacman.conf
+sleep 0.2
 sudo pacman-key --lsign-key "farseerfc@archlinux.org"
 sudo pacman -Sy && pacman -S archlinuxcn-keyring
 sudo pacman -Syyu
