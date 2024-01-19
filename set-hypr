@@ -112,6 +112,15 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
 fi
 
+read -n1 -rep 'Would you like to setup gdm login screnn? (y,n)' GDMSV
+if [[ $GDMSV == "Y" || $GDMSV == "y" ]]; then
+    sudo pacman -S --needed gdm
+    echo "Starting gdm service"
+    sudo systemctl enable --now gdm.service
+    sleep 2
+
+fi
+
 ### Copy Config Files ###
 read -n1 -rep 'Would you like to copy config files? (y,n)' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
@@ -144,9 +153,9 @@ fi
 
 echo -e "Script had completed.\n"
 echo -e "You can start Hyprland by typing Hyprland (note the capital H).\n"
-read -n1 -rep 'Would you like to start Hyprland now? (y,n)' HYP
+read -n1 -rep 'Would you like to reboot now? (y,n)' HYP
 if [[ $HYP == "Y" || $HYP == "y" ]]; then
-    exec Hyprland
+    sudo reboot
 else
     exit
 fi
