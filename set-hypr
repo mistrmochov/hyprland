@@ -112,15 +112,6 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
 fi
 
-read -n1 -rep 'Would you like to setup gdm login screnn? (y,n)' GDMSV
-if [[ $GDMSV == "Y" || $GDMSV == "y" ]]; then
-    sudo pacman -S --needed gdm
-    echo "Starting gdm service"
-    sudo systemctl enable --now gdm.service
-    sleep 2
-
-fi
-
 ### Copy Config Files ###
 read -n1 -rep 'Would you like to copy config files? (y,n)' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
@@ -150,6 +141,15 @@ fi
 ### Script is done ###
 #XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 #export XDG_RUNTIME_DIR
+
+read -n1 -rep 'Would you like to setup gdm login screnn? (y,n)' GDMSV
+if [[ $GDMSV == "Y" || $GDMSV == "y" ]]; then
+    sudo pacman -S --needed gdm
+    echo "Starting gdm service"
+    sudo systemctl enable gdm.service
+    sleep 2
+
+fi
 
 echo -e "Script had completed.\n"
 echo -e "You can start Hyprland by typing Hyprland (note the capital H).\n"
