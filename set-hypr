@@ -112,6 +112,15 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
 fi
 
+read -n1 -rep 'Would you like to setup gdm login screnn? (y,n)' GDMSV
+if [[ $GDMSV == "Y" || $GDMSV == "y" ]]; then
+    sudo pacman -S --needed gdm
+    echo "Starting gdm service"
+    sudo systemctl enable --now gdm.service
+    sleep 2
+
+fi
+
 ### Copy Config Files ###
 read -n1 -rep 'Would you like to copy config files? (y,n)' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
@@ -122,7 +131,13 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     cp -R waybar ~/.config/
     cp -R swaylock ~/.config/
     cp -R wofi ~/.config/
-
+    if [ -d ~/Pictures ]; then
+    mkdir ~/Pictures/Wallpapers
+    else
+    mkdir ~/Pictures
+    mkdir ~/Pictures/Wallpapers
+    fi
+    cp cityhideaway.png cloudymountains.jpeg cybersunset.jpg moonlight.png ~/Pictures/Wallpapers/
     # Set some files as exacutable
     chmod +x ~/.config/hypr/xdg-portal-hyprland
     chmod +x ~/.config/waybar/scripts/waybar-wttr.py
@@ -141,15 +156,6 @@ fi
 ### Script is done ###
 #XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
 #export XDG_RUNTIME_DIR
-
-read -n1 -rep 'Would you like to setup gdm login screnn? (y,n)' GDMSV
-if [[ $GDMSV == "Y" || $GDMSV == "y" ]]; then
-    sudo pacman -S --needed gdm
-    echo "Starting gdm service"
-    sudo systemctl enable gdm.service
-    sleep 2
-
-fi
 
 echo -e "Script had completed.\n"
 echo -e "You can start Hyprland by typing Hyprland (note the capital H).\n"
