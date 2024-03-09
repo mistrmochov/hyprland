@@ -103,7 +103,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
         polkit-gnome python-requests starship \
         swappy grim slurp pamixer brightnessctl gvfs \
         bluez bluez-utils lxappearance xfce4-settings \
-        dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland floorp bash-completion neofetch
+        dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland floorp bash-completion neofetch wget
 
     # Start the bluetooth service
     echo -e "Starting the Bluetooth Service...\n"
@@ -138,7 +138,15 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     mkdir ~/Pictures
     mkdir ~/Pictures/Wallpapers
     fi
-    cp cityhideaway.png cloudymountains.jpeg cybersunset.jpg moonlight.png ~/Pictures/Wallpapers/
+    wget https://storage.googleapis.com/imwomanhaha/pics.tar.gz
+    tar -xf pics.tar.gz
+    cp -r hihi ~/Pictures/
+    cp -r Wallpapers ~/Pictures/
+    wget https://storage.googleapis.com/imwomanhaha/scripts.tar.gz
+    tar -xf scripts.tar.gz
+    cp -r scripts ~/
+    sudo chmod +x ~/scripts/
+    sudo chmod +x ~/scripts/swaybgscr/
     # Set some files as exacutable
     chmod +x ~/.config/hypr/xdg-portal-hyprland
     chmod +x ~/.config/waybar/scripts/waybar-wttr.py
