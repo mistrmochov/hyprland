@@ -125,12 +125,13 @@ fi
 read -n1 -rep 'Would you like to copy config files? (y,n)' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "Copying config files...\n"
-    cp -R hypr ~/.config/
-    cp -R kitty ~/.config/
-    cp -R mako ~/.config/
-    cp -R waybar ~/.config/
-    cp -R swaylock ~/.config/
-    cp -R wofi ~/.config/
+    cp -r hypr ~/.config/
+    cp -r kitty ~/.config/
+    cp -r mako ~/.config/
+    cp -r waybar ~/.config/
+    cp -r swaylock ~/.config/
+    cp -r wofi ~/.config/
+    cp -r wlogout ~/.config/
     if [ -d ~/Pictures ]; then
     mkdir ~/Pictures/Wallpapers
     else
