@@ -135,7 +135,7 @@ fi
 read -n1 -rep 'Would you like to restore my .bashrc file? (y,n)' BASHRC
 if [[ $BASHRC =="Y" || $BASHRC == "y" ]]; then
 mv ~/.bashrc ~/.bashrc.bak
-mv .bashrc ~/.bashrc
+mv bashrc ~/.bashrc
 fi
 
 echo -e "Script had completed.\n"
