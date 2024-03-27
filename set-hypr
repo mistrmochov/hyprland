@@ -1,41 +1,5 @@
 #!/bin/bash
 
-# The follwoing will attempt to install all needed packages to run Hyprland
-# This is a quick and dirty script there are no error checking
-# This script is meant to run on a clean fresh system
-#
-# Below is a list of the packages that would be installed
-#
-# hyprland: This is the Hyprland compositor
-# kitty: This is the default terminal
-# waybar: Waybar now has hyprland support
-# swaybg: This is used to set a desktop background image
-# swaylock-effects: This allows for the locking of the desktop its a fork that adds some editional visual effects
-# wofi: This is an application launcher menu
-# wlogout: This is a logout menu that allows for shutdown, reboot and sleep
-# mako: This is a graphical notification daemon
-# thunar: This is a graphical file manager
-# ttf-jetbrains-mono-nerd: Som nerd fonts for icons and overall look
-# noto-fonts-emoji: fonts needed by the weather script in the top bar
-# polkit-gnome: needed to get superuser access on some graphical appliaction
-# python-requests: needed for the weather module script to execute
-# starship: allows to customize the shell prompt
-# swappy: This is a screenshot editor tool
-# grim: This is a screenshot tool it grabs images from a Wayland compositor
-# slurp: This helps with screenshots, it selects a region in a Wayland compositor
-# pamixer: This helps with audio settings such as volume
-# brightnessctl: used to control monitor bright level
-# gvfs: adds missing functionality to thunar such as automount usb drives
-# bluez: the bluetooth service
-# bluez-utils: command line utilities to interact with bluettoth devices
-# lxappearance: used to set GTK theme
-# xfce4-settings: set of tools for xfce, needed to set GTK theme
-# dracula-gtk-theme: the Dracula theme, it fits the overall look and feel
-# dracula-icons-git" set of icons to go with the Dracula theme
-# xdg-desktop-portal-hyprland: xdg-desktop-portal backend for hyprland
-
-#### Check for yay ####
-
 echo "Updating system!"
 sudo pacman -Syyu
 
@@ -56,7 +20,7 @@ else
     cd ..
 fi
 
-echo "Installing chatotic-aur"
+echo "Installing chaotic-aur"
 sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
 sudo pacman-key --lsign-key 3056513887B78AEB
 sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
@@ -79,31 +43,24 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
 sudo chown root /etc/pacman.conf
 sleep 0.2
 sudo pacman-key --lsign-key "farseerfc@archlinux.org"
-sudo pacman -Sy && pacman -S archlinuxcn-keyring
+sudo pacman -S archlinuxcn-keyring
 sudo pacman -Syyu
-
-### Disable wifi powersave mode ###
-read -n1 -rep 'Would you like to disable wifi powersave? (y,n)' WIFI
-if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
-    LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
-    echo -e "The following has been added to $LOC.\n"
-    echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC
-    echo -e "\n"
-    echo -e "Restarting NetworkManager service...\n"
-    sudo systemctl restart NetworkManager
-    sleep 3
-fi
 
 ### Install all of the above pacakges ####
 read -n1 -rep 'Would you like to install the packages? (y,n)' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
-    sudo pacman -S --needed hyprland kitty waybar \
-        swaybg swaylock-effects wofi wlogout mako thunar \
+    sudo pacman -S --needed hyprland-git kitty waybar \
+        swaybg swaylock-effects wofi wlogout mako nautilus \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         polkit-gnome python-requests starship \
         swappy grim slurp pamixer brightnessctl gvfs \
         bluez bluez-utils lxappearance xfce4-settings \
-        dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland floorp bash-completion neofetch wget
+        dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland \
+        brave-bin bash-completion neofetch wget flatpak gnome-software waydroid \
+        gnome-calculator code hyprpicker scrcpy vlc grub-customizer \
+        linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct
+
+    flatpak install flathub com.simplenote.Simplenote
 
     # Start the bluetooth service
     echo -e "Starting the Bluetooth Service...\n"
@@ -133,23 +90,24 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     cp -r wofi ~/.config/
     cp -r wlogout ~/.config/
     if [ -d ~/Pictures ]; then
-    mkdir ~/Pictures/Wallpapers
+        echo "Pictures folder exists"
     else
-    mkdir ~/Pictures
-    mkdir ~/Pictures/Wallpapers
+        mkdir ~/Pictures
     fi
-    wget https://storage.googleapis.com/imwomanhaha/pics.tar.gz
+    wget https://mistrmochov.blob.core.windows.net/set-hypr/pics.tar.gz
     tar -xf pics.tar.gz
-    cp -r hihi ~/Pictures/
-    cp -r Wallpapers ~/Pictures/
-    wget https://storage.googleapis.com/imwomanhaha/scripts.tar.gz
-    tar -xf scripts.tar.gz
-    cp -r scripts ~/
-    sudo chmod +x ~/scripts/
-    sudo chmod +x ~/scripts/swaybgscr/
-    # Set some files as exacutable
-    chmod +x ~/.config/hypr/xdg-portal-hyprland
-    chmod +x ~/.config/waybar/scripts/waybar-wttr.py
+    mv hihi ~/Pictures/
+    mv Wallpapers ~/Pictures/
+    wget https://mistrmochov.blob.core.windows.net/set-hypr/swaybgscr.tar.gz
+    tar -xf swaybgscr.tar.gz
+    if [ -d ~/scripts ]; then
+        echo "Scripts folder exists, skipping!"
+    else
+        mkdir ~/scripts
+    fi
+    mv swaybgscr ~/scripts/
+    chmod +x ~/scripts/swaybgscr/hyprcheck.sh
+    chmod +x ~/scripts/swaybgscr/swaybgscr.sh
 fi
 
 ### Install teh starship shell ###
@@ -162,12 +120,23 @@ if [[ $STAR == "Y" || $STAR == "y" ]]; then
     cp starship.toml ~/.config/
 fi
 
-### Script is done ###
-#XDG_RUNTIME_DIR="/tmp/runtime-${USER}"
-#export XDG_RUNTIME_DIR
+read -n1 -rep 'Would you like to install oh-my-posh? (y,n)' POSH
+if [[ $STAR == "Y" || $STAR == "y" ]]; then
+    # install oh-my-posh
+    curl -s https://ohmyposh.dev/install.sh | sudo bash -s
+    if [ -d ~/posh ]; then
+        echo "Posh dir exists, skipping!"
+    else
+        mkdir ~/posh
+    fi
+    wget https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/catppuccin_mocha.omp.json
+    mv catppuccin_mocha.omp.json ~/posh/
+    echo '
+# OhMyPosh
+eval "$(oh-my-posh init bash --config /home/$USER/posh/catppuccin_mocha.omp.json)"' >>~/.bashrc
+fi
 
 echo -e "Script had completed.\n"
-echo -e "You can start Hyprland by typing Hyprland (note the capital H).\n"
 read -n1 -rep 'Would you like to reboot now? (y,n)' HYP
 if [[ $HYP == "Y" || $HYP == "y" ]]; then
     sudo reboot
@@ -175,4 +144,4 @@ else
     exit
 fi
 
-sudo reboot
+
