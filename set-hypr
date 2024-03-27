@@ -39,7 +39,7 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
 sudo chown root /etc/pacman.conf
 sleep 0.2
 sudo pacman-key --lsign-key "farseerfc@archlinux.org"
-sudo pacman -S archlinuxcn-keyring
+sudo pacman -Sy archlinuxcn-keyring
 sudo pacman -Syyu
 
 ### Install all of the above pacakges ####
