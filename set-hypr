@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo "Updating system!"
 sudo pacman -Syyu
 
@@ -55,7 +54,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
         dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland \
         brave-bin bash-completion neofetch wget flatpak gnome-software waydroid \
         gnome-calculator code hyprpicker scrcpy vlc grub-customizer \
-        linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-loog
+        linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-look wget2
 
     flatpak install flathub com.simplenote.Simplenote
 
@@ -118,7 +117,7 @@ if [[ $STAR == "Y" || $STAR == "y" ]]; then
 fi
 
 read -n1 -rep 'Would you like to install oh-my-posh? (y,n)' POSH
-if [[ $STAR == "Y" || $STAR == "y" ]]; then
+if [[ $POSH == "Y" || $POSH == "y" ]]; then
     # install oh-my-posh
     curl -s https://ohmyposh.dev/install.sh | sudo bash -s
     if [ -d ~/posh ]; then
@@ -133,6 +132,12 @@ if [[ $STAR == "Y" || $STAR == "y" ]]; then
 eval "$(oh-my-posh init bash --config /home/$USER/posh/catppuccin_mocha.omp.json)"' >>~/.bashrc
 fi
 
+read -n1 -rep 'Would you like to restore my .bashrc file? (y,n)' BASHRC
+if [[ $BASHRC =="Y" || $BASHRC == "y" ]]; then
+mv ~/.bashrc ~/.bashrc.bak
+mv .bashrc ~/.bashrc
+fi
+
 echo -e "Script had completed.\n"
 read -n1 -rep 'Would you like to reboot now? (y,n)' HYP
 if [[ $HYP == "Y" || $HYP == "y" ]]; then
@@ -140,5 +145,3 @@ if [[ $HYP == "Y" || $HYP == "y" ]]; then
 else
     exit
 fi
-
-
