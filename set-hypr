@@ -57,6 +57,8 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
         gnome-calculator code hyprpicker scrcpy vlc grub-customizer \
         linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-look wget2
 
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
+
     flatpak install flathub com.simplenote.Simplenote
 
     # Start the bluetooth service
