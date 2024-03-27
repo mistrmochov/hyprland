@@ -136,7 +136,7 @@ eval "$(oh-my-posh init bash --config /home/$USER/posh/catppuccin_mocha.omp.json
 fi
 
 read -n1 -rep 'Would you like to restore my .bashrc file? (y,n)' BASHRC
-if [[ $BASHRC =="Y" || $BASHRC == "y" ]]; then
+if [[ $BASHRC == "Y" || $BASHRC == "y" ]]; then
 mv ~/.bashrc ~/.bashrc.bak
 mv bashrc ~/.bashrc
 fi
