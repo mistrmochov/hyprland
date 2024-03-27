@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Updating system!"
-sudo pacman -Syyu
+sudo pacman -Syu --noconfirm
 
 ISYAY=/sbin/yay
 if [ -f "$ISYAY" ]; then
@@ -8,7 +8,7 @@ if [ -f "$ISYAY" ]; then
     yay -Suy
 else
     echo -e "Installing yay"
-    sudo pacman -S --needed --noconfirm git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si
+    sudo pacman -S --needed --noconfirm git base-devel && git clone https://aur.archlinux.org/yay-bin.git && cd yay-bin && makepkg -si --noconfirm
     yay -Y --gendb
     yay -Syu --devel
     yay -Y --devel --save
@@ -40,12 +40,13 @@ sudo chown root /etc/pacman.conf
 sleep 0.2
 sudo pacman-key --lsign-key "farseerfc@archlinux.org"
 sudo pacman -Sy --noconfirm archlinuxcn-keyring
-sudo pacman -Syyu
+sudo pacman -Syu
 
 ### Install all of the above pacakges ####
 read -n1 -rep 'Would you like to install the packages? (y,n)' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
-    sudo pacman -S --needed --noconfirm hyprland-git kitty waybar \
+    sudo pacman -S --needed hyprland-git 
+    sudo pacman -S --needed --noconfirm kitty waybar \
         swaybg swaylock-effects wofi wlogout mako nautilus \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         polkit-gnome python-requests starship \
