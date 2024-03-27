@@ -5,7 +5,7 @@
     "exclusive": true,
     "passthrough": false,
     "gtk-layer-shell": true,
-    "height": 60,
+    "height": 75,
     "modules-left": [
         "clock",
         "battery",
@@ -50,16 +50,19 @@
         "persistent_workspaces": {
             "1": [],
             "2": [],
-            "3": []
-        } 
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": []
+        }
     },
     "tray": {
         "icon-size": 18,
         "spacing": 10
     },
     "clock": {
-        "format": "{: %H:%M, %b %e}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+        "format": "{:%H:%M}",
+        "max-length": 25
     },
     "backlight": {
         "device": "intel_backlight",
