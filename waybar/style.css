@@ -14,8 +14,7 @@ window#waybar {
 
 tooltip {
     background: #303038;
-    border-radius: 25px;
-    border: solid 2px #cdd6f4;
+    border-radius: 15px;
 }
 
 #workspaces button {
@@ -145,11 +144,6 @@ tooltip {
     border: solid 2px #303038;
 }
 
-#custom-power_profile {
-    color: #a6e3a1;
-    border-left: 0px;
-    border-right: 0px;
-}
 
 
 #window {
