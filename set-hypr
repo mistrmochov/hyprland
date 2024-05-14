@@ -58,7 +58,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
         brave-bin bash-completion neofetch wget flatpak gnome-software waydroid \
         gnome-calculator code hyprpicker scrcpy vlc grub-customizer \
         linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-look wget2 \
-        downloader-cli
+        downloader-cli eza zoxide
 
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 
