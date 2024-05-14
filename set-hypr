@@ -75,7 +75,7 @@ read -n1 -rep 'Would you like to setup gdm login screnn? (y,n)' GDMSV
 if [[ $GDMSV == "Y" || $GDMSV == "y" ]]; then
     sudo pacman -S --needed --noconfirm gdm
     echo "Starting gdm service"
-    sudo systemctl enable --now gdm.service
+    sudo systemctl enable gdm.service
     sleep 2
 
 fi
