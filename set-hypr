@@ -16,11 +16,7 @@ else
     cd ..
 fi
 echo "Installing paru"
-sudo pacman -S --needed --noconfirm base-devel
-git clone https://aur.archlinux.org/paru.git
-cd paru
-makepkg -si --noconfirm
-cd ..
+yay -S paru-bin
 paru -Syu --noconfirm
 echo "Installing chaotic-aur"
 sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
