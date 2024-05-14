@@ -15,7 +15,13 @@ else
     yay -Syu
     cd ..
 fi
-
+echo "Installing paru"
+sudo pacman -S --needed --noconfirm base-devel
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si --noconfirm
+cd ..
+paru -Syu --noconfirm
 echo "Installing chaotic-aur"
 sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
 sudo pacman-key --lsign-key 3056513887B78AEB
@@ -45,8 +51,8 @@ sudo pacman -Syu
 ### Install all of the above pacakges ####
 read -n1 -rep 'Would you like to install the packages? (y,n)' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
-    sudo pacman -S --needed hyprland-git 
-    sudo pacman -S --needed --noconfirm kitty waybar \
+    sudo pacman -S --needed hyprland-git
+    paru -S --needed --noconfirm kitty waybar \
         swaybg swaylock-effects wofi wlogout mako nautilus \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         polkit-gnome python-requests starship \
@@ -55,11 +61,12 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
         dracula-gtk-theme dracula-icons-git xdg-desktop-portal-hyprland \
         brave-bin bash-completion neofetch wget flatpak gnome-software waydroid \
         gnome-calculator code hyprpicker scrcpy vlc grub-customizer \
-        linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-look wget2
+        linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-look wget2 \
+        downloader-cli
 
     sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-    flatpak install flathub com.simplenote.Simplenote
+    flatpak install flathub com.simplenote.Simplenote com.moonlight_stream.Moonlight -y
 
     # Start the bluetooth service
     echo -e "Starting the Bluetooth Service...\n"
@@ -85,6 +92,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     cp -r kitty ~/.config/
     cp -r mako ~/.config/
     cp -r waybar ~/.config/
+    cp -r waybar2 ~/.config/
     cp -r swaylock ~/.config/
     cp -r wofi ~/.config/
     cp -r wlogout ~/.config/
@@ -93,18 +101,20 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     else
         mkdir ~/Pictures
     fi
-    wget https://mistrmochov.blob.core.windows.net/set-hypr/pics.tar.gz
+    dw https://mistrmochov.blob.core.windows.net/set-hypr/pics.tar.gz
     tar -xf pics.tar.gz
     mv hihi ~/Pictures/
     mv Wallpapers ~/Pictures/
-    wget https://mistrmochov.blob.core.windows.net/set-hypr/swaybgscr.tar.gz
-    tar -xf swaybgscr.tar.gz
+    dw https://mistrmochov.blob.core.windows.net/set-hypr/scripts.tar.gz
+    tar -xf scripts.tar.gz
     if [ -d ~/scripts ]; then
         echo "Scripts folder exists, skipping!"
     else
         mkdir ~/scripts
+        mv scripts/* ~/scripts/
     fi
-    mv swaybgscr ~/scripts/
+    chmod +x ~/scripts/hyprmodule.sh
+    chmod +x ~/scripts/wayswitch.sh
     chmod +x ~/scripts/swaybgscr/hyprcheck.sh
     chmod +x ~/scripts/swaybgscr/swaybgscr.sh
 fi
@@ -137,8 +147,8 @@ fi
 
 read -n1 -rep 'Would you like to restore my .bashrc file? (y,n)' BASHRC
 if [[ $BASHRC == "Y" || $BASHRC == "y" ]]; then
-mv ~/.bashrc ~/.bashrc.bak
-mv bashrc ~/.bashrc
+    mv ~/.bashrc ~/.bashrc.bak
+    mv bashrc ~/.bashrc
 fi
 
 echo -e "Script had completed.\n"
