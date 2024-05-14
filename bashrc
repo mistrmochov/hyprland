@@ -4,7 +4,6 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-bash ~/scripts/hyprmodule.sh
 #alias ls='ls --color=auto'
 #alias l='ls --color=auto'
 #alias ll='ls --color=auto -lh'
