@@ -67,18 +67,20 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
                     brave-bin bash-completion neofetch wget flatpak gnome-software waydroid \
                     gnome-calculator code hyprpicker scrcpy vlc grub-customizer \
                     linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-look wget2 \
-                    downloader-cli eza zoxide git android-tools
+                    downloader-cli eza zoxide git android-tools neovim
 
                 sudo grub-mkconfig -o /boot/grub/grub.cfg
             elif [ $OS = "fedora" ]; then
-                sudo dnf copr enable vineelsai/hypr
                 sudo dnf copr enable topazus/vscode
                 sudo dnf update -y
                 sudo dnf install -y hyprland waybar swaybg swaylock wlogout mako nautilus jetbrains-mono-fonts-all \
                     google-noto-emoji-fonts polkit-gnome python3-requests swappy pamixer gvfs bluez bluez-tools \
                     lxappearance xfce4-settings bash-completion fastfetch wget wget2 flatpak gnome-software waydroid \
-                    gnome-calculator vlc qt6ct eza zoxide dnf-plugins-core python3 python3-pip pipx git cmake hyprpicker \
-                    vscode android-tools
+                    gnome-calculator vlc qt6ct eza zoxide dnf-plugins-core python3 python3-pip pipx git cmake \
+                    vscode android-tools neovim
+                sudo dnf copr enable vineelsai/hypr
+                sudo dnf update -y
+                sudo dnf install hyprpicker -y
                 echo "Installing brave."
                 sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
                 sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
