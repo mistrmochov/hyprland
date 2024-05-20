@@ -89,9 +89,9 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
                 sudo dnf install -y brave-browser
                 echo "Installing downloader-cli"
                 pipx install downloader-cli
-                zoxide init bash
-                fastfetch --gen-config
             fi
+            zoxide init bash
+            fastfetch --gen-config
             echo "Installing flatpak apps."
             flatpak install flathub com.simplenote.Simplenote com.moonlight_stream.Moonlight com.github.tchx84.Flatseal -y
 
