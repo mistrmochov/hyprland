@@ -67,7 +67,7 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
                     brave-bin bash-completion neofetch wget flatpak gnome-software waydroid \
                     gnome-calculator code hyprpicker scrcpy vlc grub-customizer \
                     linux-xanmod-anbox linux-xanmod-anbox-headers qt6ct nwg-look wget2 \
-                    downloader-cli eza zoxide git android-tools neovim
+                    downloader-cli eza zoxide git android-tools neovim ostree appstream-glib
 
                 sudo grub-mkconfig -o /boot/grub/grub.cfg
             elif [ $OS = "fedora" ]; then
@@ -117,6 +117,16 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
         ### Copy Config Files ###
         read -n1 -rep 'Would you like to copy config files? (y,n)' CFG
         if [[ $CFG == "Y" || $CFG == "y" ]]; then
+            echo "Making needed directories!"
+            if ! [ -d ~/.icons ]; then
+                mkdir ~/.icons
+            fi
+            if ! [ -d ~/.themes ]; then
+                mkdir ~/.themes
+            fi
+            if ! [ -d ~/.local/bin ]; then
+                mkdir ~/.local/bin
+            fi
             echo -e "Copying config files...\n"
             if [ $OS = "fedora" ]; then
                 cp -r hypr-fc ~/.config/hypr
@@ -155,26 +165,17 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
             if [ $OS = "fedora" ]; then
                 dw https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip
                 dw https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Meslo.zip
+                dw https://mistrmochov.blob.core.windows.net/set-hypr/themes/Dracula.tar.xz
                 if ! [ -d ~/.fonts ]; then
                     mkdir ~/.fonts
                 fi
                 unzip JetBrainsMono.zip -d ~/.fonts/
                 unzip Meslo.zip -d ~/.fonts/
                 fc-cache -f -v
+                tar -xf Dracula.tar.xz -C ~/.themes/
             fi
             dw https://mistrmochov.blob.core.windows.net/set-hypr/cursors/Bibata-Modern-Classic.tar.xz
-            dw https://mistrmochov.blob.core.windows.net/set-hypr/themes/Dracula.tar.xz
-            if ! [ -d ~/.icons ]; then
-                mkdir ~/.icons
-            fi
-            if ! [ -d ~/.themes ]; then
-                mkdir ~/.themes
-            fi
             tar -xf Bibata-Modern-Classic.tar.xz -C ~/.icons/
-            tar -xf Dracula.tar.xz -C ~/.themes/
-            if ! [ -d ~/.local/bin ]; then
-                mkdir ~/.local/bin
-            fi
             dw https://github.com/smack0007/stylepak/raw/master/stylepak ~/.local/bin/
             chmod +x ~/.local/bin/stylepak
         fi
