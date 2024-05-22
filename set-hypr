@@ -77,7 +77,7 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
                     polkit-gnome python3-requests swappy pamixer gvfs bluez bluez-tools lxappearance xfce4-settings \
                     bash-completion fastfetch wget wget2 flatpak gnome-software waydroid gnome-calculator vlc qt6ct eza \
                     zoxide dnf-plugins-core python3 python3-pip pipx git cmake vscode android-tools neovim nano ostree \
-                    libappstream-glib
+                    libappstream-glib dnf5
                 sudo dnf copr enable vineelsai/hypr -y
                 sudo dnf copr enable tofik/nwg-shell -y
                 sudo dnf update -y
