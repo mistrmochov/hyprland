@@ -77,6 +77,7 @@ alias wifi='nmcli device wifi connect dvoracek5.ernet'
 alias n='nvim'
 alias paper='ssh -i ~/.ssh/paper paperspace@74.82.28.125'
 alias ff='fastfetch'
+alias x='chmod +x'
 
 PS1='[\u@\h \W]\$ '
 
