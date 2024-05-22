@@ -1,2 +1,2 @@
 # hyprland
-Some weird dotfiles for arch and fedora.
+Some weird dotfiles for arch and fedora. Haha
