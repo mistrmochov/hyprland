@@ -73,20 +73,21 @@ Server = https://repo.archlinuxcn.org/$arch' >>/etc/pacman.conf
             elif [ $OS = "fedora" ]; then
                 sudo dnf copr enable topazus/vscode -y
                 sudo dnf update -y
-                sudo dnf install -y hyprland waybar swaybg swaylock wlogout mako nautilus google-noto-emoji-fonts \
+                sudo dnf install -y dnf5
+                sudo dnf5 install -y hyprland waybar swaybg swaylock wlogout mako nautilus google-noto-emoji-fonts \
                     polkit-gnome python3-requests swappy pamixer gvfs bluez bluez-tools lxappearance xfce4-settings \
                     bash-completion fastfetch wget wget2 flatpak gnome-software waydroid gnome-calculator vlc qt6ct eza \
                     zoxide dnf-plugins-core python3 python3-pip pipx git cmake vscode android-tools neovim nano ostree \
-                    libappstream-glib dnf5
+                    libappstream-glib
                 sudo dnf copr enable vineelsai/hypr -y
                 sudo dnf copr enable tofik/nwg-shell -y
-                sudo dnf update -y
-                sudo dnf install hyprpicker nwg-look -y
+                sudo dnf5 update -y
+                sudo dnf5 install hyprpicker nwg-look -y
                 echo "Installing brave."
                 sudo dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo
                 sudo rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc
-                sudo dnf update
-                sudo dnf install -y brave-browser
+                sudo dnf5 update
+                sudo dnf5 install -y brave-browser
                 echo "Installing downloader-cli"
                 pipx install downloader-cli
             fi
